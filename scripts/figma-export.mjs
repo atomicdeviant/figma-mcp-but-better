@@ -6,6 +6,7 @@
  * Usage:
  *   node scripts/figma-export.mjs --file <fileKey> --out <dir> [--format png|jpg|svg|pdf] [--scale 1] [--chunk 1] \
  *     --map "12:34=hero-banner,12:56=footer-card"
+ *   node scripts/figma-export.mjs --file <fileKey> --list-pages
  *
  * Token: FIGMA_ACCESS_TOKEN env var, or a FIGMA_ACCESS_TOKEN=... line in ./.env.local
  */
@@ -32,8 +33,23 @@ async function token() {
   process.exit(1);
 }
 
+async function listPages(fileKey, tok) {
+  const res = await fetch(`https://api.figma.com/v1/files/${fileKey}?depth=1`, {
+    headers: { "X-Figma-Token": tok },
+  });
+  if (!res.ok) throw new Error(`Figma API ${res.status}: ${await res.text()}`);
+  const { name, document } = await res.json();
+  console.log(`File: ${name}`);
+  for (const page of document.children ?? []) {
+    console.log(`${page.id}\t${page.name}`);
+  }
+}
+
 async function main() {
   const fileKey = arg("file");
+  if (process.argv.includes("--list-pages")) {
+    return listPages(fileKey, await token());
+  }
   const outDir = arg("out");
   const format = arg("format", "png");
   const scale = arg("scale", "1");

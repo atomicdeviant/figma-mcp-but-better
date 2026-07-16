@@ -25,7 +25,18 @@ Override the default "screenshot-as-context" loop. Instead, extract structural n
 * Use structural tools like `get_design_context`, `get_metadata`, or read-only Plugin API queries to read node IDs, layout properties, and typography tokens.
 * Focus entirely on the node data rather than visual rendering.
 
-### 3. Implement the Export Flow
+### 3. Resolve Pages Before Drilling In
+Figma pages (the left-sidebar list) are top-level CANVAS nodes, each with its own node ID. A pasted Figma URL only carries the `?node-id=` of whatever the user was viewing — other pages are invisible from that anchor. **If the user references a page by name, or the target frames may live on a different page than the URL's node-id:**
+1. Enumerate pages first: `GET /v1/files/:key?depth=1` (returns every page's ID + name in one cheap call), or run `node scripts/figma-export.mjs --file <fileKey> --list-pages`.
+2. Resolve the named page to its canvas node ID.
+3. List that page's frames: `GET /v1/files/:key/nodes?ids=<pageId>&depth=2`.
+
+Never assume the URL's node-id page is the whole file.
+
+### 4. Build the Minimum
+Build only what the request needs. No retries, config flags, output formats, abstractions, or extra frames/variants unless explicitly asked. One frame requested = one frame delivered. When exporting, prefer running the existing `scripts/figma-export.mjs` over generating a new script.
+
+### 5. Implement the Export Flow
 When tasked with exporting frames, components, or layers, generate or execute a local script against the official Figma REST API endpoint (`GET /v1/images/:key`). Batch node IDs into a single request (`ids` is comma-separated).
 
 #### Local Export Script Template (Node.js 18+, no dependencies)

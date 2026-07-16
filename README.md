@@ -1,4 +1,4 @@
-# figma-asset-export-skill
+# figma-mcp-but-better
 
 An [Agent Skill](https://docs.claude.com/en/docs/agents-and-tools/agent-skills) + zero-dependency Node script for pulling **production-ready image assets out of Figma** — without burning MCP screenshot round-trips.
 

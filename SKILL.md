@@ -1,5 +1,5 @@
 ---
-name: figma-designer
+name: figma-mcp-but-better
 description: Efficient Figma asset extraction — skip get_screenshot; export frames/components as local JPG/PNG files via the Figma REST API (GET /v1/images/:key). Use when exporting Figma assets to disk, building asset pipelines, or batch-rendering print/production files from Figma.
 ---
 

@@ -68,10 +68,10 @@ node scripts/figma-export.mjs \
 
 ### Installing the skill
 
-Copy `SKILL.md` into a `figma-designer/` folder in your skills directory:
+Copy `SKILL.md` into a `figma-mcp-but-better/` folder in your skills directory:
 
-- Claude Code: `~/.claude/skills/figma-designer/SKILL.md`
-- Cursor: `~/.cursor/skills/figma-designer/SKILL.md`
+- Claude Code: `~/.claude/skills/figma-mcp-but-better/SKILL.md`
+- Cursor: `~/.cursor/skills/figma-mcp-but-better/SKILL.md`
 - Project-scoped: `<repo>/.claude/skills/` or `<repo>/.cursor/skills/`
 
 ## Gotchas (learned the hard way)
